@@ -2,7 +2,7 @@
 require "environment.php"; 
 
 if (ENVIRONMENT == 'development') {
-    define('BASE_URL', 'http://localhost/lojavirtual1.0/');
+    define('BASE_URL', 'http://'.$_SERVER['SERVER_NAME'].'/lojavirtual1.0/');
     $config = array(
         'dbname' => 'lojav1',
         'dbhost' => 'localhost',

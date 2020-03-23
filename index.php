@@ -9,6 +9,8 @@ spl_autoload_register(function($class){
         require 'models/'.$class.'.php';
     }elseif(file_exists('core/'.$class.'.php')) {
         require 'core/'.$class.'.php';
+    }else{
+        header("Location: ".BASE_URL);
     }
 });
 

@@ -1,5 +1,53 @@
+header input{
+    outline: 1px solid #175d78;
+}
+header button{
+    border: 1px solid #175d78!important;
+    
+}
+header button a{
+    color: #175d78!important;
+}
+header button a:hover{
+    color: white!important;
+}
+header button:hover{
+    background-color: #175d78!important;
+}
+header button.buscar{
+    width: 35px;
+    height: 35px;
+    background-image: url("../images/icons/lupa.png");
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+header button.buscar img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header button.buscar:hover{
+    background-color: #175d78;
+    background-image: url("../images/icons/lupa1.png");
+    background-size: 20px;
+    background-repeat: no-repeat;
+}
 .menu ul li a {
     text-transform: uppercase;
+    color: white;
+    padding: 0;
+}
+.menu ul li{
+    height: 50px;
+    line-height: 50px;
+}
+.menu ul li:hover {
+    background-color: #111;
+    color: white;
+}
+section{
+    min-height: 400px;
 }
 .prods{
     min-height: 550px;
@@ -23,7 +71,37 @@ a .card, a:hover{
     background-color: #eee;
     margin: 2px auto;
 }
+.prodImg img{
+    background-color: #eee;
+    min-width: 400px;
+    min-height: 400px;
+    max-height: 400px;
+}
+.carrinho {
+    top:5px!important;
+}
+#qtCarrinho{
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: red;
+    position: absolute;
+    line-height: 20px;
+    font-size: 11pt;
+}
 footer {
     bottom: 0;
     left: 0;
 }
+#atendimento ul{
+    padding: 0;
+    list-style: none;
+}
+#atendimento a{
+    color: #FFF;
+    opacity: 0.5;
+}
+.telefones p{
+    opacity: 0.7;
+}
+

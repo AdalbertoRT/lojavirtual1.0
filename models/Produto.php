@@ -14,6 +14,22 @@ class Produto extends model{
         return $produtos;
     }
 
+    public function getProduto($id){
+        if(!empty($id)){
+            if($this->prodExists($id)){
+                $sql = "SELECT * FROM produtos WHERE id = :id";
+                $sql = $this->conn->prepare($sql);
+                $sql->bindValue(":id", $id);
+                $sql->execute();
+                $produto = array();
+                if($sql->rowCount() > 0){
+                    $produto = $sql->fetch();
+                }
+                return $produto;
+            }
+        }
+    }
+
     public function getCategoria($id){
         $sql ="SELECT nome FROM categorias WHERE id = (select produtos.id_categoria from produtos where id = :id)";
         $sql = $this->conn->prepare($sql);
@@ -25,6 +41,18 @@ class Produto extends model{
             $categoria = strtolower($categoria[0]);
         }
         return $categoria;
+    }
+
+    public function prodExists($id){
+        $sql = "SELECT id FROM produtos WHERE id = :id";
+        $sql = $this->conn->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+        if($sql->rowCount() > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function removeAcentos($txt){

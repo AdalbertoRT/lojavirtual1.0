@@ -6,24 +6,33 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/bootstrap.min.css"> <!-- BOOTSTRAP.CSS -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css"> <!-- FOLHA DE ESTILOS PRÓPRIA (STYLE.CSS) -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title>Loja Virtual 1.0</title>
 </head>
 <body>
     <!-- CABEÇALHO DO SITE (HEADER) -->
     <header>
         <div>
-            <div class="container text-light">
-                <a href="<?php echo BASE_URL; ?>"><img width="200" src="<?php echo BASE_URL;?>assets/images/lojav1.png" alt="Loja Virtual 1.0" title="Loja Virtual 1.0"></a>
+            <div class="container text-light row m-auto">
+                <a href="<?php echo BASE_URL; ?>" class="col-12 col-md-4 p-0"><img width="200" src="<?php echo BASE_URL;?>assets/images/lojav1.png" alt="Loja Virtual 1.0" title="Loja Virtual 1.0"></a>
+                <form class="form-inline my-2 my-lg-0 col-8 col-md-5 p-0">
+                    <input class="form-control mr-sm-2 w-75" type="search" placeholder="O que você busca?" aria-label="Search">
+                    <button class="btn my-2 my-sm-0 buscar" type="submit"></button>
+                </form>
+                <nav class="navbar col-4 col-md-3 p-0 d-flex justify-content-end">
+                    <button class="nav-item btn  btn-sm p-0 m-1"><a href="" class="nav-link p-1">Entrar</a></button>
+                    <button class="nav-item btn  btn-sm p-0 m-1"><a href="" class="nav-link p-1">Cadastrar</a></button>
+                </nav>
             </div>
             <!-- MENU DO SITE -->
             <div class="menu bg-dark">
-                <nav class="navbar navbar-expand-lg container">
+                <nav class="navbar navbar-expand-lg container p-0">
                     
-                    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-                    <div class="collapse navbar-collapse menu" id="navbarSupportedContent">
+                    <div class="collapse navbar-collapse menu container" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="<?php echo BASE_URL;?>">Home <span class="sr-only">(current)</span></a>
@@ -34,18 +43,14 @@
                         </li>
                         <?php endforeach; ?>
                         
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo BASE_URL;?>empresa">Empresa</a>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo BASE_URL;?>contato">Contato</a>
-                        </li>
                         </ul>
-                        <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
+                        <a href="<?php echo BASE_URL;?>carrinho" class="text-light mr-4 carrinho">
+                            <img width="50" src="<?php echo BASE_URL;?>assets/images/icons/cart1.png" alt="carrinho de compras">
+                            <?php if(isset($_SESSION['carrinho'])):?>
+                            <span id="qtCarrinho" class="text-center"><?php echo count($_SESSION['carrinho']);?></span>
+                            <?php endif;?>
+                        </a>
+                        
                     </div>
                 </nav>
             </div>
@@ -57,12 +62,32 @@
     <?php $this->loadViewInTemplate($viewName, $viewData); ?>
 
     <!-- RODAPÉ DO SITE (FOOTER) -->
-    <footer class="w-100">
-    <div class="bg-dark p-1">
-        <div class="container text-light text-center">
-            <h6>&copy; Todos os Direitos Reservados</h6>
-        </div>
-    </div>
+    <footer class="w-100 bg-dark p-1 d-flex flex-column">
+            <div class="container text-light d-flex justify-content-between flex-wrap p-2">
+                <div id="atendimento">
+                    <h6 class="mb-3">Atendimento</h6>
+                    <ul>
+                        <li><a href="<?php echo BASE_URL;?>contato">Contato</a></li>
+                    </ul>
+                </div>
+                <div id="institucional">
+                    Institucional
+                </div>
+                <div id="forma-pgt-selos">
+                    <div id="forma-pgt">
+                        Forma de Pagamentos
+                    </div>
+                    <div id="selos">
+                        Selos de segurança
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-light w-100">
+            <small class="p-0 container text-light text-center">Arteix Sistemas LTDA CNPJ: 17.061.424/0001-69 - Rua Zaqui Hallal, 341, São José do Rio Preto - SP CEP 15041-250</small>
+            <hr class="bg-light w-100">
+            <small class="p-0 container text-light text-center">Ofertas válidas enquanto durarem nossos estoques | Imagens meramente ilustrativas | Vendas sujeitas a análise e confirmação de dados pela empresa. &copy; Todos os Direitos Reservados lojav1.com.br</small>
+            <div class="container text-light text-center mt-2"><small>Desenvovido por<small> <h6><strong>Arteix Sistemas</strong></h6></div>
+    
     </footer>
 
     <!-- SCRIPTS -->

@@ -7,10 +7,10 @@ class contatoController extends controller {
             $email = addslashes($_POST['contatoEmail']);
             $msg = addslashes($_POST['contatoMensagem']);
 
-            $html = "Nome: ".$nome."<br/>Email: ".$email."<br/>Mensagem: ".$msg;
+            $html = "Nome: ".$nome."<br/>\r\nEmail: ".$email."<br/>\r\nMensagem: ".$msg;
 
             $headers = "From: lojav1@mail.com.br"."\r\n";
-            $headers .= "Replu-To: ".$email."\r\n";
+            $headers .= "Reply-To: ".$email."\r\n";
             $headers .= "X-Mailer: PHP/".phpversion();
 
             mail("lojav1@mail.com.br", "Contato pelo site em ".date('d/m/Y'), $html, $headers);

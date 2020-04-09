@@ -1,6 +1,5 @@
 <section class="container">
     <?php if(isset($carrinho)): ?>
-        <?php print_r($_SESSION['carrinho']);?>
     <table class="table table-striped">
         <thead class="bg-secondary text-light">
             <th>Imagem</th>
@@ -26,7 +25,7 @@
                 </td>
                 <td colspan=2 class="font-weight-bold h5 text-light">
                     <span>R$ <?php echo $subtotal?></span> 
-                    <a href="" class="btn btn-sm btn-success float-right">Finalizar a Compra</a>
+                    <a href="<?php echo BASE_URL;?>finalizar" class="btn btn-sm btn-success float-right">Finalizar a Compra</a>
                 </td>
             </tr>
         </tbody>

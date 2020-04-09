@@ -20,8 +20,34 @@
                     <button class="btn my-2 my-sm-0 buscar" type="submit"></button>
                 </form>
                 <nav class="navbar col-4 col-md-3 p-0 d-flex justify-content-end">
-                    <button class="nav-item btn  btn-sm p-0 m-1"><a href="" class="nav-link p-1">Entrar</a></button>
-                    <button class="nav-item btn  btn-sm p-0 m-1"><a href="" class="nav-link p-1">Cadastrar</a></button>
+                <?php if(isset($_SESSION['logado'])): ?>
+                    <?php  
+                        $nome = $_SESSION['logado']['nome'];
+                        $nome = explode(" ", $nome);
+                        if(strlen($nome[0] < 4)){
+                            $nome = $nome[0]." ".$nome[1];
+                        }else{
+                            $nome = $nome[0];
+                        }                
+                        
+                    ?>
+                    <div class="dropdown">
+                        <button class="nav-item btn btn-sm p-1 m-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?php echo $nome;?>
+                        </button>
+                        <div class="dropdown-menu menu_user" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item p-1" href="#">Meus Pedidos</a>
+                            <a class="dropdown-item p-1" href="#">Meu Carrinho</a>
+                            <a class="dropdown-item p-1" href="#">Meus Favoritos</a>
+                            <a class="dropdown-item p-1" href="#">Lista de Desejo</a>
+                            <hr class="m-0">
+                            <a class="dropdown-item p-1 m-0" href="<?php echo BASE_URL;?>sair" onclick="return confirm('Deseja fazer logout');">Sair</a>                            
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <button class="nav-item btn  btn-sm p-0 m-1"><a href="<?php echo BASE_URL;?>login" class="nav-link p-1">Entrar</a></button>
+                    <button class="nav-item btn  btn-sm p-0 m-1"><a href="<?php echo BASE_URL;?>cadastro" class="nav-link p-1">Cadastrar</a></button>
+                <?php endif;?>
                 </nav>
             </div>
             <!-- MENU DO SITE -->

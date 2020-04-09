@@ -3,7 +3,9 @@ header input{
 }
 header button{
     border: 1px solid #175d78!important;
-    
+}
+header button:hover{
+    color: white!important;
 }
 header button a{
     color: #175d78!important;
@@ -45,6 +47,9 @@ header button.buscar:hover{
 .menu ul li:hover {
     background-color: #111;
     color: white;
+}
+.menu_user {
+    min-width: 8rem;
 }
 section{
     min-height: 400px;
@@ -89,6 +94,10 @@ a .card, a:hover{
     line-height: 20px;
     font-size: 11pt;
 }
+.outlined{
+    border: 1px red solid!important;
+    outline: 1px solid red!important;
+}
 footer {
     bottom: 0;
     left: 0;
@@ -104,4 +113,32 @@ footer {
 .telefones p{
     opacity: 0.7;
 }
-
+legend{
+    width: fit-content;
+}
+@media only screen and (max-width: 330px){
+    .table_finalizar td, .table_finalizar th{
+        font-size: 10px!important;
+        width: 80px!important;
+        padding: 3px;
+    }
+    .table_finalizar .col_qtd{
+        width: 40px!important;
+        padding: 5px;
+    }
+    .table_finalizar .col_nome{
+        width: 100px!important;
+        padding: 3px;
+    }
+    .table_finalizar .col_foto{
+        width: 30px!important;
+        padding: 3px;
+    }
+    .table_finalizar .qtd{
+        width: 30px!important;
+        text-indent: 0;
+    }
+    .table_finalizar > tbody > tr > td > img{
+        width: 20px!important;
+    }
+}

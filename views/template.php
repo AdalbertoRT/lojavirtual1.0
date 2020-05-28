@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/bootstrap.min.css"> <!-- BOOTSTRAP.CSS -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css"> <!-- FOLHA DE ESTILOS PRÓPRIA (STYLE.CSS) -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
     <title>Loja Virtual 1.0</title>
 </head>
 <body>
@@ -15,8 +15,8 @@
         <div>
             <div class="container text-light row m-auto">
                 <a href="<?php echo BASE_URL; ?>" class="col-12 col-md-4 p-0"><img width="200" src="<?php echo BASE_URL;?>assets/images/lojav1.png" alt="Loja Virtual 1.0" title="Loja Virtual 1.0"></a>
-                <form class="form-inline my-2 my-lg-0 col-8 col-md-5 p-0">
-                    <input class="form-control mr-sm-2 w-75" type="search" placeholder="O que você busca?" aria-label="Search">
+                <form class="form-inline my-2 my-lg-0 col-8 col-md-5 p-0" method="GET" action="<?php echo BASE_URL; ?>">
+                    <input class="form-control mr-sm-2 w-75" type="search" placeholder="O que você busca?" aria-label="Search" name="filtro">
                     <button class="btn my-2 my-sm-0 buscar" type="submit"></button>
                 </form>
                 <nav class="navbar col-4 col-md-3 p-0 d-flex justify-content-end">
@@ -70,10 +70,11 @@
                         <?php endforeach; ?>
                         
                         </ul>
+                        <!-- CARRINHO -->
                         <a href="<?php echo BASE_URL;?>carrinho" class="text-light mr-4 carrinho">
                             <img width="50" src="<?php echo BASE_URL;?>assets/images/icons/cart1.png" alt="carrinho de compras">
-                            <?php if(isset($_SESSION['carrinho'])):?>
-                            <span id="qtCarrinho" class="text-center"><?php echo count($_SESSION['carrinho']);?></span>
+                            <?php if(isset($_SESSION['carrinho']) && (count($_SESSION['carrinho']) > 0) ):?>
+                            <span id="qtCarrinho" class="text-center"><?php echo count($_SESSION['carrinho']) -1;?></span>
                             <?php endif;?>
                         </a>
                         

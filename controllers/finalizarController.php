@@ -4,8 +4,15 @@ class finalizarController extends controller{
         $dados = array();
         if(isset($_SESSION["logado"])){
             if(isset($_SESSION['carrinho'])){
+                
                 $carrinho = new Carrinho;
-                $dados['carrinho'] = $carrinho->listar($_SESSION['carrinho']);
+                $ids = array();
+                foreach($_SESSION['carrinho'] as $item){
+                    if(!is_array($item)){
+                        array_push($ids, $item);
+                    }
+                }
+                $dados['carrinho'] = $carrinho->listar($ids);
                 $dados['cat'] = new Produto();
                 $pagamentos = new Pagamentos();
                 $dados['pagamentos'] = $pagamentos->getPagamentos();

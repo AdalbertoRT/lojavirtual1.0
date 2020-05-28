@@ -1,38 +1,38 @@
 {/* <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> */}
-let erro404 = new Vue({
-    el: "#erro404",
-    data: {
-        timer: 5
-    },
-    methods: {
-        gohome: function(){
+// let erro404 = new Vue({
+//     el: "#erro404",
+//     data: {
+//         timer: 5
+//     },
+//     methods: {
+//         gohome: function(){
             
-            setTimeout(() => {
-                this.timer -= 1;
-                if(this.timer == 0){
-                   document.location.href = location.origin + "/lojavirtual1.0";
-                }                
-            }, 1000);
-        }
-    }
+//             setTimeout(() => {
+//                 this.timer -= 1;
+//                 if(this.timer == 0){
+//                    document.location.href = location.origin + "/lojavirtual1.0";
+//                 }                
+//             }, 1000);
+//         }
+//     }
 
-});
+// });
 
-let finalizar = new Vue({
-    el:"#finalizar",
-    data:{
-        total: parseInt(document.querySelector(".preco").innerText)
-    },
-    methods:{
-        totalizar: function (){
-            let u = parseInt(document.querySelector(".preco").innerText);
-            let q = parseInt(document.querySelector(".qtd").value);
-            let t = q * u;
-            this.total = t;
+// let finalizar = new Vue({
+//     el:"#finalizar",
+//     data:{
+//         total: parseInt(document.querySelector(".preco").innerText)
+//     },
+//     methods:{
+//         totalizar: function (){
+//             let u = parseInt(document.querySelector(".preco").innerText);
+//             let q = parseInt(document.querySelector(".qtd").innerText);
+//             let t = q * u;
+//             this.total = t;
             
-        }
-    }
-});
+//         }
+//     }
+// });
 
 // --------------------------- ViaCEP --------------------------- //
 $("#cep").focusout(function(){
@@ -62,6 +62,73 @@ $("#cep").focusout(function(){
         }
     });
 });
+
+// document.querySelector('#pagar').addEventListener('click', (e) => e.preventDefault());
+
+// -------------- Aumentar/Diminuir QTD Carrinho ---------------- //
+let itemsCart = document.querySelectorAll('.itemsCart');
+itemsCart.forEach( (item) => {
+    let qtd = parseInt(item.querySelector('.qtd').innerHTML);
+    let preco = parseFloat(item.querySelector('.preco').innerHTML);
+    item.querySelector('.qtdMenos').addEventListener('click', () => {
+        let id = item.getAttribute('data-id');
+        if(qtd > 1){
+           let href = window.location.href.replace(/carrinho/g, "carrinho/remove/" + id);
+           window.location.href = href;
+            // qtd--;
+        }else{
+            let r = confirm("Deseja excluir este item do carrinho?");
+            if(r == true){
+                let href = window.location.href.replace(/carrinho/g, "carrinho/excluirItem/" + id);
+                window.location.href = href; 
+            }
+        }
+        // let novopreco = preco * qtd;
+        // item.querySelector('.qtd').innerHTML = qtd;
+        // item.querySelector('.preco').innerHTML = novopreco;
+        // updateCarrinho();
+    } );
+    item.querySelector('.qtdMais').addEventListener('click', () => {
+        let id = item.getAttribute('data-id');
+        let href = window.location.href.replace(/carrinho/g, "carrinho/add/" + id);
+        window.location.href = href;
+                
+        // let estoque = item.querySelector('.qtd').getAttribute('data-estoque');
+        // if(qtd < estoque){
+        //     qtd++;
+        // }
+        // let novopreco = preco * qtd;
+        // item.querySelector('.qtd').innerHTML = qtd;
+        // item.querySelector('.preco').innerHTML = novopreco;
+        // updateCarrinho();
+    } );
+    item.querySelector('.qtd').addEventListener('change', ()=>{
+        updateCarrinho();
+    })
+} );
+
+// ----------------- Atualiza Carrinho ------------------- //
+function updateCarrinho(){
+    let precos = 0;
+    itemsCart.forEach((item)=>{
+        precos += parseFloat(item.querySelector('.preco').innerHTML);
+    });
+    document.querySelector('.subtotal').innerHTML = precos;
+}
+
+// ----------------- Finalizar Compra (Carrinho) ------------------- //
+// document.querySelector('.finalizar').addEventListener('click', (e) => {
+//     e.preventDefault();
+
+//     let qtd = '';
+//     itemsCart.forEach((item)=>{
+//         qtd += item.querySelector('.qtd').innerHTML + '@';
+//     })
+//     let href = window.location.href.replace(/carrinho/g, "finalizar/index/" + qtd); 
+//     console.log(href);
+// });
+    
+
 
 // ----------------- Desabilitar tecla Enter ------------------- //
 $(document).ready(function () {

@@ -52,7 +52,7 @@ header button.buscar:hover{
     min-width: 8rem;
 }
 section{
-    min-height: 400px;
+    min-height: 300px;
 }
 .prods{
     min-height: 550px;
@@ -98,6 +98,43 @@ a .card, a:hover{
     border: 1px red solid!important;
     outline: 1px solid red!important;
 }
+/* CARRINHO */
+.cart td{
+    padding: 3px;
+    vertical-align: middle;
+}
+.qtd{
+    font-weight: bold;
+    padding: 0 3px;
+}
+.qtdMenos, .qtdMais{
+    width: 20px;
+    height: 20px;
+    box-shadow: 0 0 2px rgba(0,0,0,.5);
+    margin: 0 5px;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 10px;
+    border-radius: 10px;
+}
+.qtdMenos:hover, .qtdMais:hover{
+    background-color: #175d78;
+    color: white;
+}
+.qtdMenos:hover, .qtdMais:hover{
+    background-color: #175d78;
+    color: white;
+}
+.qtdMais{
+    padding: 0;
+}
+/* FINALIZAR */
+.table_finalizar td{
+    vertical-align: middle;
+    padding: 2px 0;
+}
+
+/* FOOTER */
 footer {
     bottom: 0;
     left: 0;

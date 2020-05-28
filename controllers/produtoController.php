@@ -1,7 +1,7 @@
 <?php
 class produtoController extends controller{
 
-    public function index($id){
+    public function index($id = 0){
         if(!empty($id)){
             $id = addslashes($id);
             $p = new Produto();

@@ -1,37 +1,39 @@
 <section class="container">
 <div id="finalizar">
-    <form method="POST">
+    <form method="POST" id="pagar">
         <!-- DADOS DOS PRODUTOS -->
         <fieldset class="border border-secondary rounded px-4 py-2">
         <legend class="p-0 ml-4">Informações da Compra</legend>
         <?php if(isset($carrinho)): ?>
-        <h5 class="bg-light pl-1">Produtos</h5>
+        <h5 class="bg-dark pl-1 text-light">Produtos</h5>
         <table class="table table_finalizar m-0">
             <thead class="text-center small">
-                <th class="p-0 col_foto">Foto</th>
+                <th class="p-0 col_foto" width="15%">Foto</th>
                 <th class="p-0 col_nome">Nome</th>
-                <th class="p-0">R$</th>
-                <th class="p-0 col_qtd">Qtd</th>
-                <th class="p-0">Total</th>
+                <th class="p-0 col_qtd" width="15%">Qtd</th>
+                <th class="p-0" width="15%">Valor</th>
             </thead>
             <tbody>
-            <?php $subtotal = 0?>
+            <?php $subtotal = 0; $quantidade = 0; ?>
             <?php foreach($carrinho as $prod):?>
+                
                 <tr class="text-center">
-                    <td class="col_foto"><img width="40" src="<?php echo BASE_URL; ?>assets/images/<?php echo $cat->getCategoria($prod['id']); ?>/<?php echo $prod['imagem']; ?>" alt="<?php echo $prod['nome']; ?>"></td>
+                    <td class="col_foto"><img width="30" src="<?php echo BASE_URL; ?>assets/images/<?php echo $cat->getCategoria($prod['id']); ?>/<?php echo $prod['imagem']; ?>" alt="<?php echo $prod['nome']; ?>"></td>
                     <td class="col_nome small"><?php echo $prod['nome'];?></td>
-                    <td class="small">R$ <span class="preco"><?php echo $prod['preco'];?></span></td>
-                    <td style="width:100px" class="col_qtd small"><input style="width:50px; text-indent: 5px;" @click="totalizar()" class="rounded qtd"  type="number" name="qtd" min="1" max="99" value='1' onKeyDown="if(this.value.length==2) return false;"></td>
-                    <td style="width:150px" class="small"><strong>R$ {{total}}</strong></td>
-                </tr>
-                <?php $subtotal += $prod['preco']?>
+                    <td style="width:100px" class="col_qtd small"><span class="rounded qtd"><?php echo $_SESSION['carrinho']['qtds'][$prod['id']];?></span></td>
+                    <td class="small">R$ <strong class="preco" data-key="<?php echo $prod['id'];?>"><?php echo $prod['preco'] * $_SESSION['carrinho']['qtds'][$prod['id']];?></strong></td>
+                </tr>  
+                <?php $subtotal += $prod['preco'] * $_SESSION['carrinho']['qtds'][$prod['id']];
+                      $quantidade += $_SESSION['carrinho']['qtds'][$prod['id']];
+                ?>              
             <?php endforeach; ?>
+            <tr class="bg-secondary text-light border"><td></td><td></td><td class="text-center">Items: <strong><?php echo $quantidade; ?></strong></td><td>Subtotal: R$ <strong><?php echo $subtotal; ?></strong></td></tr>
             </tbody>
         </table>
         <?php endif;?>
        
         <!-- DADOS DO COMPRADOR -->
-        <h5 class="bg-light pl-1">Comprador</h5>
+        <h5 class="bg-dark pl-1 text-light">Comprador</h5>
             <div class="container row p-0">
                 <div class="small col-sm-4">Nome: <strong><?php  echo $_SESSION['logado']['nome'];?></strong></div>
                 <div class="small col-sm-4">Email: <strong><?php  echo $_SESSION['logado']['email'];?></strong></div>
@@ -42,7 +44,7 @@
             </div>
       
         <!-- ENDEREÇO DO COMPRADOR -->
-        <h5 class="bg-light pl-1">Endereço de Entrega</h5>
+        <h5 class="bg-dark pl-1 text-light">Endereço de Entrega</h5>
             <div class="row">
                 <div class="form-group col-md-4 pr-md-1 m-0">
                     <label for="cep" class="small">Cep: </label>
@@ -104,7 +106,7 @@
             </div>
         
         <!-- FORMAS DE PAGAMENTO -->
-        <h5 class="bg-light pl-1 mt-3">Formas de Pagamento</h5>
+        <h5 class="bg-dark pl-1 mt-3 text-light">Formas de Pagamento</h5>
             <div class="form-check d-flex justify-content-around">        
             <?php foreach($pagamentos as $pag): ?>
                 <div>
@@ -120,3 +122,4 @@
     </form>
 </div>
 </section>
+

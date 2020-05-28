@@ -1,15 +1,21 @@
 <?php
 class Produto extends model{
 
-    public function listar($qt = 0){
+    public function listar($filtro, $qt = 0){
         $produtos = array();
-        $sql = "SELECT id, nome, preco, imagem FROM produtos ORDER BY RAND() ";
+        $sql = "SELECT id, nome, preco, imagem FROM produtos ";
+        if($filtro != ''){
+            $sql = $sql." WHERE nome LIKE '%$filtro%'";
+        }
+        $sql = $sql." ORDER BY RAND() ";
         if($qt > 0){
             $sql .= "LIMIT $qt";
         }
         $sql = $this->conn->query($sql);
         if($sql->rowCount() > 0){
             $produtos = $sql->fetchAll();
+        }else{
+            header("Location: ".Base_URL);
         }
         return $produtos;
     }
@@ -66,5 +72,15 @@ class Produto extends model{
             return $novoTexto;
         }
         
+    }
+
+    public function getQtd($id){
+        $qtd = 0;
+        $sql = "SELECT quantidade FROM produtos WHERE id = $id";
+        $sql = $this->conn->query($sql);
+        if($sql->rowCount() > 0){
+            $qtd = $sql->fetch();
+        }
+        return intval($qtd[0]);
     }
 }

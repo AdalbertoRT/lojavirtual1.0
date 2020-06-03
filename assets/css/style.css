@@ -133,6 +133,42 @@ a .card, a:hover{
     vertical-align: middle;
     padding: 2px 0;
 }
+.balaoCep, .balaoNumero{
+    background: cornsilk;
+    border-radius: 10px;
+    border: 1px solid #175d78;
+    width: auto;
+    min-width: 110px;
+    padding: 0 5px;
+    height: 25px;
+    left:45px;
+    position: absolute;
+    animation: balao infinite 1s linear;
+    color: #175d78;
+    transition: all ease-in-out 1s;
+    text-align: center;
+}
+.balaoCep:after, .balaoNumero:after{
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #175d78;
+    bottom: -10px;
+    left: 10%;
+}
+.balaoNumero{
+    display: none;
+}
+@keyframes balao {
+    0% {bottom: 40px;}
+    25% {bottom: 38px;}
+    50% {bottom: 35px;}
+    75% {bottom: 38px;}
+    100% {bottom: 40px;}
+}
 
 /* FOOTER */
 footer {

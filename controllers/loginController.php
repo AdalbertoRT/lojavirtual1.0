@@ -17,6 +17,10 @@ class loginController extends controller{
                 if($login->checkCredentials($email, $senha)){
                     $usuario = $login->logar($email, $senha);
                     $_SESSION['logado'] = $usuario;
+                    if(isset($_SESSION['notLogged'])){
+                        unset($_SESSION['notLogged']);
+                        header("Location: ".BASE_URL."finalizar");exit;  
+                    }
                     header("Location: ".BASE_URL);
                 }else{
                     $dados['msg'] = "<strong>E-MAIL</strong> e/ou <strong>SENHA</strong> Inválidos!";

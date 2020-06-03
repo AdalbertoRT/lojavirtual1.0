@@ -83,4 +83,14 @@ class Produto extends model{
         }
         return intval($qtd[0]);
     }
+
+    public function getPreco($id){
+        $preco = 0;
+        $sql = "SELECT preco FROM produtos WHERE id = $id";
+        $sql = $this->conn->query($sql);
+        if($sql->rowCount() > 0){
+            $preco = $sql->fetch();
+        }
+        return $preco[0];
+    }
 }

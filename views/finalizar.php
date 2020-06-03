@@ -1,6 +1,9 @@
 <section class="container">
 <div id="finalizar">
-    <form method="POST" id="pagar">
+    <?php if(isset($erro)): ?>
+        <div class="alert alert-danger mt-2 mb-0"><?php echo $erro; ?></div>
+    <?php endif; ?>
+    <form method="POST" id="pagar" action="<?php echo BASE_URL; ?>finalizar/pagar">
         <!-- DADOS DOS PRODUTOS -->
         <fieldset class="border border-secondary rounded px-4 py-2">
         <legend class="p-0 ml-4">Informações da Compra</legend>
@@ -33,42 +36,47 @@
         <?php endif;?>
        
         <!-- DADOS DO COMPRADOR -->
-        <h5 class="bg-dark pl-1 text-light">Comprador</h5>
+        <h5 class="bg-dark text-light pl-1 mt-3">Comprador</h5>
             <div class="container row p-0">
-                <div class="small col-sm-4">Nome: <strong><?php  echo $_SESSION['logado']['nome'];?></strong></div>
-                <div class="small col-sm-4">Email: <strong><?php  echo $_SESSION['logado']['email'];?></strong></div>
-                <div class="small col-sm-4">Telefone: <strong><?php  echo $_SESSION['logado']['telefone'];?></strong></div>
-                <div class="small container d-flex align-items-center col-12 d-flex mt-3"><span>CPF:  </span><input type="text" class="form-control form-control-sm ml-2 col-md-6" id="cpfComprador" placeholder="000.000.000-00"></div>
-                <small class="text-primary mb-4 ml-3">Digite seu CPF para emissão da nota fiscal.</small>
-               
+                <div class="col-md-6">
+                    <div class="small m-1">Nome: <strong><?php  echo $_SESSION['logado']['nome'];?></strong></div>
+                    <div class="small m-1">Email: <strong><?php  echo $_SESSION['logado']['email'];?></strong></div>
+                    <div class="small m-1">Telefone: <strong><?php  echo $_SESSION['logado']['telefone'];?></strong></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="small m-1 mb-2">
+                        CPF:  <input type="text" class="form-control form-control-sm" id="cpfComprador" name="cpf" placeholder="000.000.000-00">
+                        <span class="text-primary mb-4">Digite seu CPF para emissão da nota fiscal.</span>
+                    </div>
+                </div>
             </div>
       
         <!-- ENDEREÇO DO COMPRADOR -->
         <h5 class="bg-dark pl-1 text-light">Endereço de Entrega</h5>
             <div class="row">
                 <div class="form-group col-md-4 pr-md-1 m-0">
-                    <label for="cep" class="small">Cep: </label>
+                    <div class="row m-0"><label for="cep" class="small">Cep: </label> <small class="balaoCep">Digite seu Cep</small></div>
                     <input type="text" class="form-control form-control-sm" id="cep" name="cep" placeholder="00000-000" value="<?php echo $_SESSION['logado']['cep'];?>">
                 </div>
                 <div class="form-group col-md-6 px-md-1 m-0">
                     <label for="rua" class="small">Logradouro: </label>
-                    <input type="text" class="form-control form-control-sm" id="logradouro" name="logradouro" placeholder="Rua, Av., Estrada etc" title="Rua, Av., Estrada etc" disabled>
+                    <input type="text" class="form-control form-control-sm" id="logradouro" name="logradouro" placeholder="Rua, Av., Estrada etc" title="Rua, Av., Estrada etc">
                 </div>
                 <div class="form-group col-md-2 pl-md-1 m-0">
-                    <label for="numero" class="small">Nº: </label>
+                <div class="row m-0"><label for="numero" class="small">Nº: </label><small class="balaoNumero">Digite o Numero</small></div>
                     <input type="text" class="form-control form-control-sm" id="numero" name="numero" placeholder="Nº da residência" title="Nº da Residência">
                 </div>
                 <div class="form-group col-md-4 m-0 pr-md-1">
                     <label for="cidade" class="small">Bairro: </label>
-                    <input type="text" class="form-control form-control-sm" id="bairro" name="bairro" placeholder="Bairro" disabled>
+                    <input type="text" class="form-control form-control-sm" id="bairro" name="bairro" placeholder="Bairro">
                 </div>
                 <div class="form-group col-md-6 m-0 px-md-1">
                     <label for="cidade" class="small">Cidade: </label>
-                    <input type="text" class="form-control form-control-sm" id="cidade" name="cidade" placeholder="Cidade" disabled>
+                    <input type="text" class="form-control form-control-sm" id="cidade" name="cidade" placeholder="Cidade">
                 </div>
                 <div class="form-group col-md-2 m-0 pl-md-1">
                     <label for="uf" class="small">Estado: </label>
-                    <select class="form-control form-control-sm" id="uf" disabled>
+                    <select class="form-control form-control-sm" id="uf" name="uf">
                         <option value="AC">Acre</option>
                         <option value="AL">Alagoas</option>
                         <option value="AP">Amapá</option>
@@ -104,7 +112,22 @@
                     <input type="text" class="form-control form-control-sm" id="complemento" name="complemento" placeholder="Complemento (opcional)">
                 </div>
             </div>
-        
+        <!-- TOTAL DA COMPRA -->
+        <h5 class="bg-dark text-light mt-3 pl-1">Total da Compra</h5>
+            <div class="container row p-0 d-flex align-items-center">
+                <div class="col-md-6 small">
+                    <label for="desconto" class="col text-primary">Possui algum cupom de Desconto?</span>
+                    <div class="d-flex align-items-center">
+                        <input type="text" class="col-8" id="desconto" name="desconto" placeholder="Insira aqui o código de seu cupom">
+                        <button class="btn btn-sm text-light col-1 bg-secondary p-0">OK</button>
+                    </div>
+                </div>
+                <div class="col-md-6 text-right font-weight-bolder">
+                    <span>Total: </span>
+                    <strong>R$<?php echo $subtotal; ?></strong>
+                </div>
+            </div>
+
         <!-- FORMAS DE PAGAMENTO -->
         <h5 class="bg-dark pl-1 mt-3 text-light">Formas de Pagamento</h5>
             <div class="form-check d-flex justify-content-around">        
@@ -117,8 +140,9 @@
                 </div>
             <?php endforeach; ?>
             </div>
+
         </fieldset>
-        <button type="submit" class="btn btn-primary btn-block my-3">Fazer Pagamento</button>
+        <input type="submit" class="btn btn-primary btn-block my-3 pagar" value="Fazer Pagamento">
     </form>
 </div>
 </section>

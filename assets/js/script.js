@@ -36,6 +36,8 @@
 
 // --------------------------- ViaCEP --------------------------- //
 $("#cep").focusout(function(){
+    document.querySelector(".balaoCep").style.display = "none";
+    document.querySelector(".balaoNumero").style.display = "block";
     //Início do Comando AJAX
     $.ajax({
         //O campo URL diz o caminho de onde virá os dados
@@ -61,6 +63,9 @@ $("#cep").focusout(function(){
             $("#numero").focus();
         }
     });
+});
+$("#numero").focusout(function(){
+    document.querySelector(".balaoNumero").style.display = "none";
 });
 
 // document.querySelector('#pagar').addEventListener('click', (e) => e.preventDefault());
@@ -127,6 +132,7 @@ function updateCarrinho(){
 //     let href = window.location.href.replace(/carrinho/g, "finalizar/index/" + qtd); 
 //     console.log(href);
 // });
+
     
 
 
@@ -134,7 +140,10 @@ function updateCarrinho(){
 $(document).ready(function () {
     $('input').keypress(function (e) {
          var code = null;
-         code = (e.keyCode ? e.keyCode : e.which);                
+         code = (e.keyCode ? e.keyCode : e.which);               
          return (code == 13) ? false : true;
     });
  });
+// document.querySelector("#pagar").addEventListener("click", (e) => {
+//     e.preventDefault();
+// });

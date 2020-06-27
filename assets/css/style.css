@@ -76,12 +76,7 @@ a .card, a:hover{
     background-color: #eee;
     margin: 2px auto;
 }
-.prodImg img{
-    background-color: #eee;
-    min-width: 400px;
-    min-height: 400px;
-    max-height: 400px;
-}
+
 .carrinho {
     top:5px!important;
 }
@@ -97,6 +92,50 @@ a .card, a:hover{
 .outlined{
     border: 1px red solid!important;
     outline: 1px solid red!important;
+}
+/* TELA DO PRODUTO */
+.thumbnails, .img-thumbnail{
+    min-width: 60px;
+    min-height: 60px;
+}
+.prodImg img{
+    background-color: #eee;
+    width: 100%;
+    height: 100%;
+}
+.truck {
+    background-image: url("../images/icons/truck.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 30px;
+    height: 30px;
+}
+.map_marker {
+    background-image: url("../images/icons/map_marker.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+    display: none;
+}
+.fretePara{
+    display: none;
+    height: 0;
+    transition: all .5s ease-in-out;
+}
+.infoFrete {
+    display: none;
+    transition: all .5s ease-in-out;
+}
+.infoPrazo {
+    opacity: 0;
+    transition: all 1s ease-in-out;
+}
+.alterarCep {
+    display: none;
+}
+.desaparecer {
+    display: none!important;
 }
 /* CARRINHO */
 .cart td{
@@ -127,6 +166,27 @@ a .card, a:hover{
 }
 .qtdMais{
     padding: 0;
+}
+.breadcrumbsCarrinho{
+    display: none!important;    
+}
+a.active {
+    background-color: lightblue!important;
+    font-weight: bold;
+}
+.credit_card_img{
+    background-image: url("../images/icons/credit_card.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+}
+.boleto_img{
+    background-image: url("../images/icons/boleto.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
 }
 /* FINALIZAR */
 .table_finalizar td{
@@ -169,7 +229,40 @@ a .card, a:hover{
     75% {bottom: 38px;}
     100% {bottom: 40px;}
 }
-
+.mercadopago-button{
+    width: 100%;
+    margin: 10px 0;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+/* LOADING */
+.loading {
+    min-width: 100px;
+    min-height: 100px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.8);
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+}
+.twist {
+    background-image: url("../images/icons/loading.gif");
+    background-size: contain;
+    position: relative;
+    width: 70px;
+    height: 70px;
+    /* border: 3px solid #fff;
+    border-radius: 100%; */
+    
+    
+}
 /* FOOTER */
 footer {
     bottom: 0;

@@ -30,4 +30,14 @@ class Carrinho extends model{
     //         $sql->execute(array(":id" => $id, ":idProd" => $idProd, ":qtd" => $qtd));
     //     }
     // }
+
+    public function getParcelas(){
+        $parcelas = 1;
+        $sql = "SELECT taxa FROM parcelamentos";
+        $sql = $this->conn->query($sql);
+        if($sql->rowCount() > 0){
+            $parcelas = $sql->fetchAll();
+        }
+        return $parcelas;
+    }
 }

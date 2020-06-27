@@ -2,19 +2,25 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/bootstrap.min.css"> <!-- BOOTSTRAP.CSS -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css"> <!-- FOLHA DE ESTILOS PRÓPRIA (STYLE.CSS) -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script> -->
     <title>Loja Virtual 1.0</title>
 </head>
 <body>
     <!-- CABEÇALHO DO SITE (HEADER) -->
     <header>
         <div>
-            <div class="container text-light row m-auto">
+            <div class="container text-light row m-auto d-flex justify-content-between">
                 <a href="<?php echo BASE_URL; ?>" class="col-12 col-md-4 p-0"><img width="200" src="<?php echo BASE_URL;?>assets/images/lojav1.png" alt="Loja Virtual 1.0" title="Loja Virtual 1.0"></a>
+                <ol class="breadcrumbsCarrinho float-right text-dark align-self-center col-md-4 d-flex justify-content-between">
+                    <li><a href="<?php echo BASE_URL;?>carrinho">Carrinho</a></li>
+                    <li><a href="<?php echo BASE_URL;?>login">Identificação</a></li>
+                    <li><a href="<?php echo BASE_URL;?>finalizar">Pagamento</a></li>
+                </ol>
                 <form class="form-inline my-2 my-lg-0 col-8 col-md-5 p-0" method="GET" action="<?php echo BASE_URL; ?>">
                     <input class="form-control mr-sm-2 w-75" type="search" placeholder="O que você busca?" aria-label="Search" name="filtro">
                     <button class="btn my-2 my-sm-0 buscar" type="submit"></button>
@@ -73,15 +79,15 @@
                         <!-- CARRINHO -->
                         <a href="<?php echo BASE_URL;?>carrinho" class="text-light mr-4 carrinho">
                             <img width="50" src="<?php echo BASE_URL;?>assets/images/icons/cart1.png" alt="carrinho de compras">
-                            <?php if(isset($_SESSION['carrinho']) && (count($_SESSION['carrinho']) > 0) ):?>
-                            <span id="qtCarrinho" class="text-center"><?php echo count($_SESSION['carrinho']) -1;?></span>
+                            <?php if(isset($_SESSION['carrinho']) && (count($_SESSION['carrinho']) > 2) ):?>
+                            <span id="qtCarrinho" class="text-center" style="<?php echo (count($_SESSION['carrinho']) < 1) ? 'display:none' : '';  ?>"><?php echo count($_SESSION['carrinho']) - 2;?></span>
                             <?php endif;?>
                         </a>
                         
                     </div>
                 </nav>
             </div>
-            
+                
         </div>
     </header>
 
@@ -119,6 +125,7 @@
 
     <!-- SCRIPTS -->
     <script src="<?php echo BASE_URL; ?>assets/js/jquery.min.js"></script><!-- JQUERY.JS -->
+    <script src="<?php echo BASE_URL; ?>assets/js/jquery.mask.js"></script><!-- JQUERY.JS -->
     <script src="<?php echo BASE_URL; ?>assets/js/bootstrap.bundle.min.js"></script> <!-- BOOTSTRAP.JS -->
     <script src="<?php echo BASE_URL; ?>assets/js/script.js"></script> <!-- SCRIPT PRÓPRIO (SCRIPT,JS) -->
 </body>

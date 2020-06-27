@@ -1,7 +1,7 @@
 <?php
 class Venda extends model{
 
-    public function setVenda($id_usuario, $endereco, $valor, $forma_pg, $prods, $qtds){
+    public function setVenda($id_usuario, $endereco, $valor, $forma_pg, $prods, $qtds, $data_venda){
         /*
         STATUS: 
             0 = Aguardando Pagamento;
@@ -12,12 +12,12 @@ class Venda extends model{
         $pg_link = '';
 
         /* 
-        AQUI INTEGRAÇÃO COM PAGAMNETOS
+        AQUI INTEGRAÇÃO COM PAGAMENTOS
         */
 
-        $sql = "INSERT INTO vendas SET id_usuario = ?, endereco = ?, valor = ?, forma_pg = ?, status_pg = ?, pg_link = ?";
+        $sql = "INSERT INTO vendas SET id_usuario = ?, endereco = ?, valor = ?, forma_pg = ?, status_pg = ?, pg_link = ?, data_venda = ?";
         $sql = $this->conn->prepare($sql);
-        $sql->execute(array($id_usuario, $endereco, $valor, $forma_pg, $status, $pg_link));
+        $sql->execute(array($id_usuario, $endereco, $valor, $forma_pg, $status, $pg_link, $data_venda));
 
         $id_venda = $this->conn->lastInsertId();
 

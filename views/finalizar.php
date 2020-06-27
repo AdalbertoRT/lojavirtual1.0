@@ -1,9 +1,14 @@
 <section class="container">
 <div id="finalizar">
+
     <?php if(isset($erro)): ?>
         <div class="alert alert-danger mt-2 mb-0"><?php echo $erro; ?></div>
     <?php endif; ?>
-    <form method="POST" id="pagar" action="<?php echo BASE_URL; ?>finalizar/pagar">
+    <?php if(isset($modal)): ?>
+        <div class="alert alert-danger mt-2 mb-0"><?php echo $erro; ?></div>
+    <?php endif; ?>
+
+    <form method="POST" id="pagar" action="<?php echo BASE_URL; ?>finalizar/pagamento">
         <!-- DADOS DOS PRODUTOS -->
         <fieldset class="border border-secondary rounded px-4 py-2">
         <legend class="p-0 ml-4">Informações da Compra</legend>
@@ -116,6 +121,10 @@
         <h5 class="bg-dark text-light mt-3 pl-1">Total da Compra</h5>
             <div class="container row p-0 d-flex align-items-center">
                 <div class="col-md-6 small">
+                    <div id="fretePrazo">
+                        <h6>Frete:</h6><span></span>
+                        <h6>Prazo: </h6><span></span>
+                    </div>
                     <label for="desconto" class="col text-primary">Possui algum cupom de Desconto?</span>
                     <div class="d-flex align-items-center">
                         <input type="text" class="col-8" id="desconto" name="desconto" placeholder="Insira aqui o código de seu cupom">
@@ -133,7 +142,7 @@
             <div class="form-check d-flex justify-content-around">        
             <?php foreach($pagamentos as $pag): ?>
                 <div>
-                    <input class="form-check-input" type="radio" name="pagamentos" id="pagamentos<?php echo $pag['id'];?>" value="<?php echo $pag['id'];?>">
+                    <input class="form-check-input pagamentos" type="radio" name="pagamentos" id="pagamentos<?php echo $pag['id'];?>" value="<?php echo $pag['id'];?>">
                     <label class="form-check-label" for="pagamentos<?php echo $pag['id'];?>">
                         <?php echo $pag['nome'];?>
                     </label>
@@ -142,8 +151,25 @@
             </div>
 
         </fieldset>
-        <input type="submit" class="btn btn-primary btn-block my-3 pagar" value="Fazer Pagamento">
+        
+            <form action="https://adalbertort.com/processar-pagamento" method="POST">
+                <script
+                    src="https://www.mercadopago.com.br/integrations/v1/web-tokenize-checkout.js"
+                    data-public-key="<?php echo ENV_PUBLIC_KEY;?>"
+                    data-transaction-amount="<?php echo $subtotal; ?>">
+                </script>
+            </form>
+
+            <!-- <form action="" method="POST">
+                <script
+                src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
+                data-preference-id="<?php echo $preference->id; ?>">
+                </script>
+            </form> -->
+        <!-- </script> -->
+        <!-- <input type="submit" class="btn btn-primary btn-block my-3 pagar" value="Fazer Pagamento"> -->
     </form>
 </div>
+
 </section>
 

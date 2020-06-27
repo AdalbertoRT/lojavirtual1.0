@@ -1,0 +1,13 @@
+{
+    "name": "art/mp",
+    "description": "Mercado Pago",
+    "authors": [
+        {
+            "name": "Adalberto R. Teixeira",
+            "email": "adalbertoart@gmail.com"
+        }
+    ],
+    "require": {
+        "mercadopago/dx-php": "^2.0"
+    }
+}

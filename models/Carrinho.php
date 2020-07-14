@@ -1,5 +1,6 @@
 <?php
 class Carrinho extends model{
+    
     public function listar($prods){
         if(!empty($prods)){
             $sql = "SELECT * FROM produtos WHERE id IN (".implode(",", $prods).")";

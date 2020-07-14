@@ -170,25 +170,47 @@ a .card, a:hover{
 .breadcrumbsCarrinho{
     display: none!important;    
 }
-a.active {
+.tab{
+    color: #fff!important;
+    text-shadow: 1px 1px 2px #000;
+}
+.tab.active {
     background-color: lightblue!important;
     font-weight: bold;
+    color: #000;
 }
 .credit_card_img{
-    background-image: url("../images/icons/credit_card.png");
+    /* background-image: url("../images/icons/credit_card.png");
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain; */
     width: 40px;
     height: 40px;
 }
 .boleto_img{
-    background-image: url("../images/icons/boleto.png");
+    /* background-image: url("../images/icons/boleto.png");
+    background-repeat: no-repeat;
+    background-size: contain; */
+    width: 40px;
+    height: 40px;
+}
+/* FINALIZAR */
+.radio {
+    background-image: url("../images/icons/unchecked_radio.png");
     background-repeat: no-repeat;
     background-size: contain;
     width: 40px;
     height: 40px;
 }
-/* FINALIZAR */
+.radio.selected {
+    background-image: url("../images/icons/checked_radio.png");
+}
+.pagamento {
+    background-color: #666; 
+}
+.pagamento .form-control, .pagamento .form-control:active{
+    background-color: #333;
+    color: white;
+}
 .table_finalizar td{
     vertical-align: middle;
     padding: 2px 0;

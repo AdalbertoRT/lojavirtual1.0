@@ -1,5 +1,5 @@
 // VARIÁVEIS
-let campoCep = document.querySelector(".cepProd");
+let campoCep = (document.querySelector(".cepProd")) ? document.querySelector(".cepProd") : '';
 
 // --------------------------- ViaCEP --------------------------- //
 $("#cep").focusout(function(){
@@ -37,17 +37,27 @@ $("#numero").focusout(function(){
 
 // CALCULAR FRETE COM O CEP
 $(document).ready(function(){
-    if(campoCep.value != ""){
-       frete();
+    if(campoCep){
+        if(campoCep.value != ""){
+            frete();
+         }
     }
 });
 
 // CLICAR BOTÃO OK DO CEP
-document.querySelector(".cepOk").addEventListener('click', () => {
-    frete();
-    location.reload();
-});
-
+if(document.querySelector(".cepOk")){
+    document.querySelector(".cepOk").addEventListener('click', () => {
+        inLoad();
+        frete();
+        setTimeout(() => {
+            item.parentNode.removeChild(item);
+            
+        }, 2000);
+        setTimeout(() => {
+            location.reload();
+        }, 500);
+    });
+}
 // FUNCAO DE CALCULO DO FRETE
 function frete(){
     let cepDestino = $(".cepProd").val();
@@ -57,75 +67,92 @@ function frete(){
         
         url: 'https://viacep.com.br/ws/'+ cepDestino +'/json/unicode/',
         dataType: 'json',
+        // beforeSend: function(){
+        //     inLoad();
+        // },
         success: function(resposta){
-            $(".infoFrete").html("");
-            $(".infoFrete").html("<small>Entrega para " + resposta.localidade + "/" + resposta.uf + "</small>");
-            $(".fretePara").show(500);
-            $(".map_marker").show(500);
-            $(".fretePara").css("min-height", "80px");
-            $( ".infoFrete" ).show(500);
-            $( ".infoPrazo" ).css('opacity', 1);
-            $(".inputFrete").addClass("desaparecer");
-            $(".alterarCep").show(500);
+            if(resposta.erro){
+                alert("CEP Inválido!");
+                $(".cepProd").val("");
+                $(".cepProd").focus();
+            }else{
+                $(".infoFrete").html("");
+                $(".infoFrete").html("<small>Entrega para " + resposta.localidade + "/" + resposta.uf + "</small>");
+                $(".fretePara").show(500);
+                $(".map_marker").show(500);
+                $(".fretePara").css("min-height", "80px");
+                $( ".infoFrete" ).show(500);
+                $( ".infoPrazo" ).css('opacity', 1);
+                $(".inputFrete").addClass("desaparecer");
+                $(".alterarCep").show(500);
+                let href = window.location.href;
+                let id = ($("#nomeProd")) ? $("#nomeProd").attr("data-id") : "";
+                var retorno = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + id + "/" + cepDestino + "/04014/04510");
+                let item = document.querySelector(".loading");
+                fetch(retorno);
+            }
+            
         },
         error: function(){
             alert("CEP Inválido!");
             $(".cepProd").val("");
+            $(".cepProd").focus();
         }
     });
 
-    let href = window.location.href;
-    if(href.search("produto") > -1){
-        let id = $("#nomeProd").attr("data-id");
-        // var sedex = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04014");
-        // var pac = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04510");
-        // var sedex12 = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04782");
-        // var sedex10 = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04790");
-        // var sedexhj = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04804");
-        var frete = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazoProduto/" + id + "/" + cepDestino + "/04014/04510");
-    }else if(href.search("carrinho") > -1){
-        // var sedex = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04014");
-        // var pac = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04510");
-        // var sedex12 = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04782");
-        // var sedex10 = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04790");
-        // var sedexhj = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04804");
-        var frete = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazoCarrinho/" + cepDestino + "/04014/04510");
-    }
+    // let href = window.location.href;
+    // if(href.search("produto") > -1){
+    //     let id = $("#nomeProd").attr("data-id");
+    //     // var sedex = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04014");
+    //     // var pac = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04510");
+    //     // var sedex12 = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04782");
+    //     // var sedex10 = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04790");
+    //     // var sedexhj = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04804");
+    //     var frete = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazoProduto/" + id + "/" + cepDestino + "/04014/04510");
+    // }else if(href.search("carrinho") > -1){
+    //     // var sedex = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04014");
+    //     // var pac = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04510");
+    //     // var sedex12 = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04782");
+    //     // var sedex10 = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04790");
+    //     // var sedexhj = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazo/" + cepDestino + "/04804");
+    //     var frete = href.replace(document.location.pathname, "/lojavirtual1.0/correios/fretePrazoCarrinho/" + cepDestino + "/04014/04510");
+    // }
 
-    $.ajax({
+    // $.ajax({
         
-        url: frete,
-        // beforeSend: function(){
-        //     inLoad();
-        // },
-        success: function (){
-            var item = document.querySelector(".loading");
-            item.parentNode.removeChild(item);
-        }
-        // method: 'post',
-        // dataType: 'json',
-        // success: function(resposta){
-        //     // alert(resposta);
-        //     $(".infoPrazo").html("");
-        //     $(".infoPrazo").html("<small>" + resposta + "</small>");
-        //     $('.freteTipo').html('Frete (' + $('.freteRadio:checked').attr('id').toUpperCase() + ")");
-        //     $('.freteTotal').html('R$ ' + $('.freteRadio:checked').val());
-        // }
-    });
+    //     url: frete,
+    //     // beforeSend: function(){
+    //     //     inLoad();
+    //     // },
+    //     success: function (){
+    //         var item = document.querySelector(".loading");
+    //         item.parentNode.removeChild(item);
+    //     }
+    //     // method: 'post',
+    //     // dataType: 'json',
+    //     // success: function(resposta){
+    //     //     // alert(resposta);
+    //     //     $(".infoPrazo").html("");
+    //     //     $(".infoPrazo").html("<small>" + resposta + "</small>");
+    //     //     $('.freteTipo').html('Frete (' + $('.freteRadio:checked').attr('id').toUpperCase() + ")");
+    //     //     $('.freteTotal').html('R$ ' + $('.freteRadio:checked').val());
+    //     // }
+    // });
 
 };
-
-document.querySelector(".alterarCep").addEventListener("click", function(){
-    this.style.display = "none";
-    document.querySelector(".inputFrete").classList.remove("desaparecer");
-    $(".fretePara").hide();
-    $(".map_marker").hide();
-    $(".fretePara").css("min-height", "0");
-    $( ".infoFrete" ).hide();
-    $( ".infoPrazo" ).css('opacity', 0);
-    $(".alterarCep").hide();
-    $(".cepProd").val("").focus();
-});
+if(document.querySelector(".alterarCep")){
+    document.querySelector(".alterarCep").addEventListener("click", function(){
+        this.style.display = "none";
+        document.querySelector(".inputFrete").classList.remove("desaparecer");
+        $(".fretePara").hide();
+        $(".map_marker").hide();
+        $(".fretePara").css("min-height", "0");
+        $( ".infoFrete" ).hide();
+        $( ".infoPrazo" ).css('opacity', 0);
+        $(".alterarCep").hide();
+        $(".cepProd").val("").focus();
+    });
+}
 
 // SELECIONAR TIPO DE FRETE
 document.querySelectorAll(".freteRadio").forEach(element => {
@@ -207,14 +234,18 @@ function descontos(){
     
 }
 
-// ----------------- MODAL FORMAS DE PAGAMENTO ------------------- //
-let tabs = document.querySelectorAll(".tab");
-tabs.forEach((item)=> {
-    item.addEventListener('click', function(){
-        tabs.forEach(el =>  el.classList.remove("active"));
-        item.classList.add("active");
+// ----------------- FORMAS DE PAGAMENTO ------------------- //
+if(document.querySelector(".tab")){
+    let tabs = document.querySelectorAll(".tab");
+    tabs.forEach((item)=> {
+        item.addEventListener('click', function(){
+            tabs.forEach((el) =>  {
+                el.querySelector("i").classList.remove("selected");            
+            });
+            item.querySelector("i").classList.add("selected");
+        });
     });
-});
+}
 
 // ----------------- Atualiza Carrinho ------------------- //
 function updateCarrinho(){
@@ -278,5 +309,18 @@ function addslashes(string) {
         replace(/\r/g, '\\r').
         replace(/'/g, '\\\'').
         replace(/"/g, '\\"');
+}
+
+// FINALIZAR COMPRA
+if(document.querySelector(".finalizar")){
+    document.querySelector(".finalizar").addEventListener("click", () => {
+        if(!document.querySelector(".finalizar").classList.contains("btn-disabled")){
+            let cep = document.querySelector(".cepProd").value;
+            if(cep == '' || cep.length != 8 ){
+                alert("Digite o CEP de entrega!");
+                document.querySelector(".cepProd").focus();
+            }
+        }
+    });
 }
 

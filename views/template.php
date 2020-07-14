@@ -127,6 +127,8 @@
     <script src="<?php echo BASE_URL; ?>assets/js/jquery.min.js"></script><!-- JQUERY.JS -->
     <script src="<?php echo BASE_URL; ?>assets/js/jquery.mask.js"></script><!-- JQUERY.JS -->
     <script src="<?php echo BASE_URL; ?>assets/js/bootstrap.bundle.min.js"></script> <!-- BOOTSTRAP.JS -->
+    <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
     <script src="<?php echo BASE_URL; ?>assets/js/script.js"></script> <!-- SCRIPT PRÓPRIO (SCRIPT,JS) -->
+    <script src="<?php echo BASE_URL; ?>libs/js/script_mp.js"></script>
 </body>
 </html>

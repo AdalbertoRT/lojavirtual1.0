@@ -1,9 +1,10 @@
 <?php
 class finalizarController extends controller{
-    public  function index($error = ""){
+    public  function index(){
         $dados = array();
-        if(!empty($error)){
-            $dados["erro"] = "Digite todos os campos obrigatórios!";
+        if(!isset($_SESSION['frete'])){
+            $dados["erro"] = "Digite o CEP de entrega!";
+            $this->loadTemplate("carrinho", $dados);exit;
         }
         if(isset($_SESSION["logado"])){
             if(isset($_SESSION['carrinho'])){
@@ -15,10 +16,15 @@ class finalizarController extends controller{
                         array_push($ids, $item);
                     }
                 }
+                $freteEscolhido = strtolower($_SESSION['frete']['freteEscolhido']);
+                $freteValor = $_SESSION['frete'][$freteEscolhido]['valor'];
+                $ValorTotal = $_SESSION['carrinho']['valor'];
                 $dados['carrinho'] = $carrinho->listar($ids);
                 $dados['cat'] = new Produto();
-                $pagamentos = new Pagamentos();
-                $dados['pagamentos'] = $pagamentos->getPagamentos();
+                $dados['valorFrete'] = new Produto();
+                $dados['cat'] = new Produto();
+                // $pagamentos = new Pagamentos();
+                // $dados['pagamentos'] = $pagamentos->getPagamentos();
             }
         }else{
             $_SESSION['notLogged'] = array();

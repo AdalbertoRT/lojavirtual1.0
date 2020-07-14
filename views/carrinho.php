@@ -8,8 +8,10 @@
 </style>
 <div class="bg-light py-2">
 <section class="container row m-auto">
+
     <?php if(isset($carrinho)):?>
     <div class="col-md-7">
+    <?php echo (isset($erro)) ? "<div class='alert alert-warning'>$erro</div>" : "";?>
         <h4>Lista de produtos</h4>
         <table class="table cart shadow rounded">
         <thead class="bg-light text-center">
@@ -20,38 +22,39 @@
             <!-- <th width="15%">Ações</th> -->
         </thead>
         <tbody class="text-center bg-white">
-        <?php $subtotal = 0?>
+
         <?php foreach($carrinho as $prod):?>
-        
             <tr class="itemsCart" data-id="<?php echo $prod['id']; ?>">
                 <td colspan=2 class="text-left"><img width="60" src="<?php echo BASE_URL; ?>assets/images/<?php echo $cat->getCategoria($prod['id']); ?>/<?php echo $prod['imagem']; ?>" alt="<?php echo $prod['nome']; ?>"><span class="mx-1"><?php echo $prod['nome'];?></span></td>
-                <!-- LISTAR A QUANTIDADE NO CARRINHO -->
-                             
+                
+                <!-- LISTAR A QUANTIDADE NO CARRINHO -->            
                 <td class="col_qtd small"><button class="qtdMenos">-</button><span class="rounded qtd" data-estoque="<?php echo $prod['quantidade'];?>"><?php echo $_SESSION['carrinho']['qtds'][$prod['id']]; ?></span><button class="qtdMais">+</button><a href="<?php echo BASE_URL; ?>/carrinho/excluirItem/<?php echo $prod['id']; ?>" onclick="return confirm('Deseja excluir este item do carrinho?')">Remover</a></td></td>
 
                 <td>R$ <span class="preco"><?php echo $prod['preco'] * $_SESSION['carrinho']['qtds'][$prod['id']];?></span></td>
-                <!-- <td><a href="<?php echo BASE_URL; ?>/carrinho/excluirItem/<?php echo $prod['id']; ?>" onclick="return confirm('Deseja excluir este item do carrinho?')">Excluir</a></td> -->
+                
             </tr>
-            <?php $subtotal += $prod['preco'] * $_SESSION['carrinho']['qtds'][$prod['id']]?>
-            <?php endforeach; ?>
-                <tr class="bg-light">
-                    <td colspan=3><span class="float-right">Subtotal: </span></td>
-                    <td class="font-weight-bold h6">
-                        R$ <span class="subtotal"><?php echo $subtotal?></span> 
-                    </td>
-                </tr>
-            </tbody>
+        <?php endforeach; ?>
+
+            <tr class="bg-light">
+                <td colspan=3><span class="float-right">Subtotal: </span></td>
+                <td class="font-weight-bold h6">
+                    R$ <span class="subtotal"><?php echo $subtotal?></span> 
+                </td>
+            </tr>
+        </tbody>
         </table>
         <div class="d-flex justify-content-between">
-            <a href="<?php echo BASE_URL; ?>" class="btn btn-warning text-white"> < Continuar comprando</a>
-            <div class="d-flex align-items-center">
+            <a href="<?php echo BASE_URL; ?>" class="btn btn-warning text-white"> < Continuar comprando</a> 
+             <!--DESCONTOS  -->
+            <form action="<?php echo BASE_URL;?>carrinho/descontos" method="POST" class="d-flex align-items-center">
                 <input type="text" class="inputDesconto form-control form-control-sm m-0" name="desconto">
-                <button class="btn btn-sm text-light bg-secondary" onclick="descontos()">OK</button>
-            </div>
+                <input type='submit' class="btn btn-sm text-light bg-secondary" value="OK">
+            </form>
         </div>
         <small class="float-right">Possui algum cupom de desconto?</small>
     </div>
 
+    <!-- RESUMO DA COMPRA -->
     <aside class="resumo col-md-5">
     <h4>Resumo da compra</h4>
         <div class="frete row bg-white shadow border m-auto rounded">
@@ -64,7 +67,7 @@
                 <div class="form-group col-5 d-flex m-0">
                     <!-- <div class="row m-0"><small class="balaoCep col-9">Digite seu Cep</small></div> -->
                     <div class="row m-0">
-                        <input type="text" class="cepProd form-control form-control-sm col-9 m-0" name="cep" placeholder="00000-000" value="<?php echo isset($_SESSION['frete']) ? $_SESSION['frete']['cep'] : '';?>" onkeypress="$(this).mask('00000-000')">
+                        <input type="text" class="cepProd form-control form-control-sm col-9 m-0" name="cep" placeholder="00000-000" value="<?php echo $cep;?>" onkeypress="$(this).mask('00000-000')">
                         <button class="cepOk btn btn-sm text-light col-3 bg-secondary m-0 p-0">OK</button>
                     </div>
                 </div>
@@ -74,20 +77,19 @@
                 <div class="d-flex">
                     <div class="map_marker mr-1 mt-1"></div><div class="infoFrete"></div><button class="alterarCep btn btn-link btn-sm">Alterar</button>
                 </div>
+                <?php if(isset($_SESSION['frete'])):?>
                 <div class="infoPrazo container d-flex flex-column">
                     <div>
-                        <input type="radio" name='freteRadio' class="form-check-input freteRadio" value="<?php echo $_SESSION['frete']['sedex']['tipo'];?>" <?php echo ($_SESSION['frete']['freteEscolhido'] == $_SESSION['frete']['sedex']['tipo']) ? 'checked' : ''; ?>><small><strong><?php echo $_SESSION['frete']['sedex']['tipo'];?> - </strong><span><?php echo $_SESSION['frete']['sedex']['prazo'];?> a </span> <span><?php echo (intval($_SESSION['frete']['sedex']['prazo']) + 2);?> dias úteis - </span><strong class="text-primary">R$ <?php echo $_SESSION['frete']['sedex']['valor']; ?></strong></small>
+                        <input type="radio" name='freteRadio' class="form-check-input freteRadio" value="<?php echo $_SESSION['frete']['sedex']['tipo'];?>" <?php echo ($freteEscolhido == $_SESSION['frete']['sedex']['tipo']) ? 'checked' : ''; ?>><small><strong><?php echo $_SESSION['frete']['sedex']['tipo'];?> - </strong><span><?php echo $prazoSedex;?> a </span> <span><?php echo (intval($prazoSedex) + 2);?> dias úteis - </span><strong class="text-primary">R$ <?php echo $valorSedex; ?></strong></small>
                     </div>
                     <div>
-                        <input type="radio" name='freteRadio' class="form-check-input freteRadio" value="<?php echo $_SESSION['frete']['pac']['tipo'];?>" <?php echo ($_SESSION['frete']['freteEscolhido'] == $_SESSION['frete']['pac']['tipo']) ? 'checked' : ''; ?>><small><strong><?php echo $_SESSION['frete']['pac']['tipo'];?> - </strong><span><?php echo $_SESSION['frete']['pac']['prazo'];?> a </span> <span><?php echo (intval($_SESSION['frete']['pac']['prazo']) + 2);?> dias úteis - </span><strong class="text-primary">R$ <?php echo $_SESSION['frete']['pac']['valor']; ?></strong></small>
+                        <input type="radio" name='freteRadio' class="form-check-input freteRadio" value="<?php echo $_SESSION['frete']['pac']['tipo'];?>" <?php echo ($freteEscolhido == $_SESSION['frete']['pac']['tipo']) ? 'checked' : ''; ?>><small><strong><?php echo $_SESSION['frete']['pac']['tipo'];?> - </strong><span><?php echo $prazoPac;?> a </span> <span><?php echo (intval($prazoPac) + 2);?> dias úteis - </span><strong class="text-primary">R$ <?php echo $valorPac; ?></strong></small>
                     </div> 
                 </div>
+                <?php endif;?>
             </div>
         </div>
-        <?php 
-            $itens = array_sum($_SESSION['carrinho']['qtds']);
-            $desconto = array_sum($_SESSION['carrinho']['descontos']);
-        ?>
+    
         <table class="table small border bg-white shadow">
             <thead class="text-center m-0 p-0 bg-light">
                 <th class="p-0 m-0"></th>
@@ -106,64 +108,69 @@
                         <strong class="text-primary">R$ <?php echo number_format($subtotal,2,',','');?></strong>
                     </td>
                 </tr>
+                <!-- ROW FRETE -->
                 <tr >
                     <td class="text-left m-0 p-1">
-                        <span class="freteTipo">Frete <?php echo isset($_SESSION['frete']['freteEscolhido']) ? $_SESSION['frete']['freteEscolhido'] : ''; ?></span>
+                        <span class="freteTipo">Frete: <strong><?php echo isset($freteEscolhido) ? strtoupper($freteEscolhido) : ''; ?><strong></span>
                     </td>
                     <td class="m-0 p-1 border" colspan="2">
-                        <?php 
-                        $valorFrete = 0;
-                        if(isset($_SESSION['frete'])){
-                            $valorFrete = ($_SESSION['frete']['freteEscolhido'] == $_SESSION['frete']['sedex']['tipo']) ? $_SESSION['frete']['sedex']['valor'] : $_SESSION['frete']['pac']['valor'];
-                        }
-                        ?>
-                        <span class="freteTotal text-primary font-weight-bold text-right">R$ <?php echo number_format($valorFrete,2,',',''); ?></span>
+                        <span class="freteTotal text-primary font-weight-bold text-right">R$ <?php echo $valorFrete; ?></span>
                     </td>
                 </tr>
+                <!-- ROW DESCONTO -->
                 <tr >
                     <td class="text-left m-0 p-1">
                         <span>Desconto </span>
                     </td>
                     <td class="m-0 p-1 border">
-                        <span class="desconto text-primary font-weight-bold text-right"><?php echo ($desconto+5)."%";?></span>
+                        <span class="desconto text-primary font-weight-bold text-right"><?php echo ($descontos+5)."%";?></span>
                     </td>
                     <td class="m-0 p-1 border">
-                        <span class="desconto text-primary font-weight-bold text-right"><?php echo $desconto."%";?></span>
+                        <span class="desconto text-primary font-weight-bold text-right"><?php echo $descontos."%";?></span>
                     </td>
                 </tr>
                 <tr class="border-bottom">
-                    <?php 
-                        $boleto = $subtotal - ($subtotal * ($desconto+5)/100) + $valorFrete;
-                        $cartao = $subtotal - ($subtotal * ($desconto/100)) + $valorFrete;
-                    ?>
                     <td class="text-left px-1 m-0">
                         <div class="font-weight-bold">Total a Pagar </div>
                     </td>
                     <td class="m-0 border">
                         <div class="d-flex flex-column align-items-center">
-                            <span class="desconto text-primary font-weight-bold text-right">R$ <?php echo number_format($boleto,2,',',''); ?></span>
+                            <span class="desconto text-primary font-weight-bold text-right">R$ <?php echo number_format($valorBoleto,2,',',''); ?></span>
                             <small>Boleto à vista</small>
                         </div>
                     </td>
                     <td class="m-0 border">
                         <div class="d-flex flex-column align-items-center">
-                            <span class="desconto text-primary font-weight-bold text-right">R$ <?php echo number_format($cartao,2,',',''); ?></span>
+                            <span class="desconto text-primary font-weight-bold text-right">R$ <span id="valor_cartao"><?php echo number_format($valorCartao,2,',',''); ?></span></span>
                             <small>Em até 12x</small>
                         </div>
                     </td>
                 </tr>
-                <tr><td colspan="3" class="text-right m-0 p-0"><button class="btn btn-link btn-sm" data-toggle="modal" data-target="#modalParcelas"><small>Todas as formas de pagamento</small></button></td></tr>
+                <?php if(isset($_SESSION['frete'])):?>
+                <tr><td colspan="3" class="text-right m-0 p-0"><button class="btn btn-link btn-sm verParcelas" data-toggle="modal" data-target="#modalParcelas"><small>Todas as formas de pagamento</small></button></td></tr>
+                <?php else:?>
+                <tr><td colspan="3" class="text-right m-0 p-0"><button class="btn btn-disabled btn-sm verParcelas" data-toggle="modal" data-target="#modalParcelas" disabled><small>Todas as formas de pagamento</small></button></td></tr>
+                <?php endif;?>
             </tbody>
         </table>
-        
-        <!-- <a href="<?php echo BASE_URL; ?>finalizar" class="btn btn-block btn-success finalizar my-3">Finalizar Compra</a> -->
-        <form action="/processar-pagamento" method="POST">
+       <?php if(isset($_SESSION['frete'])):?>
+       <!-- <form action="<?php echo BASE_URL;?>finalizar">
+            <input type="hidden" name="boleto" value="<?php echo $boleto;?>">
+            <input type="hidden" name="cartao" value="<?php echo $cartao;?>">
+            <input type="submit" class="btn btn-block btn-success finalizar my-3">Finalizar Compra</button>
+       </form> -->
+       <a href="<?php echo BASE_URL;?>finalizar" class="btn btn-block btn-success finalizar my-3">Finalizar Compra</a>
+
+       <?php else: ?>
+        <button class="btn btn-block btn-success btn-disabled  my-3" disabled>Finalizar Compra</button>
+       <?php endif;?>
+        <!-- <form action="<?php echo BASE_URL;?>pospay" method="POST">
             <script
                 src="https://www.mercadopago.com.br/integrations/v1/web-tokenize-checkout.js"
                 data-public-key="<?php echo ENV_PUBLIC_KEY;?>"
                 data-transaction-amount="<?php echo $cartao; ?>">
             </script>
-        </form>
+        </form> -->
     </aside>
 
     <!-- BANNER DO MP -->
@@ -183,41 +190,45 @@
                     </button>
                 </div>
                 <div class="modal-body p-0">
-                    <ul class="nav nav-tabs row p-0 w-100 m-auto">
-                        <li class="nav-item col text-center p-0">
-                            <a class="nav-link active tab small border p-1" href="#tableCartao"><img class="credit_card_img mx-2 rounded bg-info"/>Cartão de Crédito</a>
-                        </li>
-                        <li class="nav-item col text-center p-0">
-                            <a class="nav-link tab small border p-1" href="#tableBoleto"><img class="boleto_img mx-2 rounded bg-warning"/>Boleto</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- CONTEÚDO TAB CARTÃO DE CRÉDITO -->
-                <div class="tab-content">
-                    <table id="tableCartao" class="table">
-                        <th>Parcelas</th>
-                        <th>Valor</th>
-                        <?php for($i = 0; $i < count($_SESSION['carrinho']['taxas']); $i++):?>
-                        <?php 
-                            $taxa =  floatval($_SESSION['carrinho']['taxas'][$i]);
-                            $valor_parcela = round(($cartao + ($cartao * ($taxa / 100))) / ($i+1),2);   
-                            $valor_juros = $valor_parcela * ($i+1);   
-                        ?>
-                            <tr>
-                                <td class="p-1"><?php echo ($i+1)."x de R$ ".number_format($valor_parcela,2,',','');?></td>
-                                <td class="p-1"><?php echo ($i == 0) ? "(sem juros)" : number_format($valor_juros,2,',','');?></td>
-                            </tr>
-                        <?php endfor;?>
-                    </table>
+                    <nav class="d-flex justify-content-center">
+                        <div class="nav nav-tabs border rounded row w-100" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active col text-center" id="nav-card-tab" data-toggle="tab" href="#nav-card" role="tab" aria-controls="nav-card" aria-selected="true"><img src="<?php BASE_URL;?>assets/images/icons/credit_card.png" class="credit_card_img mx-2 rounded bg-white"/>Cartão de Crédito</a>
+                            <a class="nav-item nav-link col text-center" id="nav-boleto-tab" data-toggle="tab" href="#nav-boleto" role="tab" aria-controls="nav-boleto" aria-selected="false"><img src="<?php BASE_URL;?>assets/images/icons/boleto.png" class="boleto_img mx-2 rounded bg-white"/>Boleto</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content">
+                    <!-- CONTEÚDO TAB CARTÃO DE CRÉDITO -->
+                        <div id="nav-card" class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav-card-tab">
+                            <table class="table text-center">
+                                <thead>
+                                    <th class="p-1">Parcelas</th>
+                                    <th class="p-1">Valor</th>
+                                </thead>
+                                <tbody class="info-parcelas p-1">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- CONTEÚDO TAB BOLETO -->
+                        <div id="nav-boleto" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-boleto-tab">
+                            <div class="p-2 text-justify">
+                                <p class="m-0 my-2">Boleto Bancário com <span class="text-primary">5%</span> de desconto: <span class="text-primary">R$ <?php echo number_format($boleto,2,',',''); ?></span></p>
+                                <p class="m-0">Efetue o pagamento pela internet, em bancos, lotéricas ou correios.</p>
+                                <p class="m-0">Quanto antes você pagar, mais rápido será a sua entrega.</p>
+                                <p class="m-0">O boleto tem vencimento de 3 dias a partir da confirmação da compra.</p>
+                                <p>Lembre-se que a compensação do boleto pode demorar até 3 dias úteis.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
         </div>
     </div>
     <div style="clear:both";></div>
     <?php else:?>
     <div class="w-100 text-center h3 my-4 bg-light">Não há itens no carrinho!</div>
     <?php endif;?> 
-  
+      
 </section>
 </div>
